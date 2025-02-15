@@ -1,4 +1,5 @@
 // import SectionTitle from "../../../components/SectionTitle/SectionTitle";
+import { Link } from "react-router-dom";
 import Cover from "../../Shared/Cover/Cover";
 import Menuitem from "../../Shared/MenuItem/Menuitem";
 
@@ -14,7 +15,10 @@ const MenuCategory = ({items, title, img}) => {
                     item={item}
                     ></Menuitem>)
                 }
-            </div> 
+            </div>  
+            <Link to={`/order/${title}`}>
+            <button className="btn btn-outline border-b-4">Order now</button>
+            </Link>
         </div>
     );
 };
