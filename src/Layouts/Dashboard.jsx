@@ -5,7 +5,7 @@ import {
   FaList,
   FaShoppingCart,
 } from "react-icons/fa";
-import { MdProductionQuantityLimits } from "react-icons/md";
+import { MdEmail, MdProductionQuantityLimits } from "react-icons/md";
 import { NavLink, Outlet } from "react-router-dom"; 
 import './dashboard.css'
 import useCart from "../hooks/useCart";
@@ -13,6 +13,8 @@ import useCart from "../hooks/useCart";
 const Dashboard = () => { 
 
   const [cart] = useCart()
+  //TODO: Get isAdmin value from the database 
+  const isAdmin = true 
 
   return (
     <div className="flex">
@@ -51,6 +53,8 @@ const Dashboard = () => {
               My Bookings
             </NavLink>
           </li>
+
+          {/* Shared Nav links */}
           <div className="divider"></div>
           <li>
             <NavLink to="/">
@@ -65,9 +69,9 @@ const Dashboard = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/">
-              <FaHome></FaHome>
-              User Home
+            <NavLink to="/order/contact">
+              <MdEmail></MdEmail>
+              Contact
             </NavLink>
           </li>
         </ul>
