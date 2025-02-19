@@ -4,8 +4,10 @@ import { useForm } from "react-hook-form";
 import { AuthContext } from "../../providers/AuthProviders";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const SignUp = () => {
+  const axiosPublic = useAxiosPublic();
   const {
     register,
     handleSubmit,
@@ -13,8 +15,8 @@ const SignUp = () => {
     reset,
     formState: { errors },
   } = useForm();
-  const { createUser, updateUserProfile } = useContext(AuthContext); 
-  const navigate = useNavigate()
+  const { createUser, updateUserProfile } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const onSubmit = (data) => {
     console.log(data);
@@ -24,22 +26,34 @@ const SignUp = () => {
       console.log(loggedUser);
       updateUserProfile(data?.name, data?.photoURL)
         .then(() => {
-          console.log("User profile info updated"); 
-          reset()
-          Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'User Created Successfully',
-            showConfirmButton: false,
-            timer: 1500
-          })
-          navigate('/')
-          //If I want to logOut + signIn ==> 
+          //Create user entry in the database
+          const userInfo = {
+            name: data.name,
+            email: data.email,
+          };
+          axiosPublic.post("/users", userInfo).then((res) => {
+            if (res.data.insertedId) {  
+              console.log('user added to the database');
+              reset();
+              Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "User Created Successfully",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              navigate("/");
+            }
+          });
+          // console.log("User profile info updated");
+
+          //If I want to logOut + signIn ==>
           // a).Call the logout function
-          //b)logout then block + navigate('/login')  
+          //b)logout then block + navigate('/login')
         })
         .catch((error) => console.log(error));
     });
+
   };
   // console.log(watch("example")) // watch input value by passing the name of it
 
