@@ -1,58 +1,103 @@
 import {
   FaAd,
+  FaBook,
   FaCalendar,
   FaHome,
   FaList,
   FaShoppingCart,
+  FaUsers,
+  FaUtensils,
 } from "react-icons/fa";
 import { MdEmail, MdProductionQuantityLimits } from "react-icons/md";
-import { NavLink, Outlet } from "react-router-dom"; 
-import './dashboard.css'
+import { NavLink, Outlet } from "react-router-dom";
+import "./dashboard.css";
 import useCart from "../hooks/useCart";
+import useAdmin from "../hooks/useAdmin";
 
-const Dashboard = () => { 
-
-  const [cart] = useCart()
-  //TODO: Get isAdmin value from the database 
-  const isAdmin = true 
+const Dashboard = () => {
+  const [cart] = useCart(); 
+  
+  //TODO: Get isAdmin value from the database
+  // const isAdmin = true;
+  const [isAdmin] = useAdmin()
 
   return (
     <div className="flex">
       {/* dashboard sidebar start */}
       <div className="w-64 min-h-screen bg-orange-400">
         <ul className="menu p-4">
-          <li>
-            <NavLink to="/dashboard/userHome">
+          {isAdmin ? (
+            <> 
+               <li>
+            <NavLink to="/dashboard/adminHome">
               <FaHome></FaHome>
-              User Home
+              Admin Home
             </NavLink>
           </li>
           <li>
             <NavLink 
             // className='active' 
-            to="/dashboard/reservation">
-              <FaCalendar></FaCalendar>
-              Reservation
+            to="/dashboard/addItems">
+              <FaUtensils></FaUtensils>
+              Add Items
             </NavLink>
           </li>
           <li>
-            <NavLink to="/dashboard/cart">
-              <FaShoppingCart></FaShoppingCart>
-              My Cart ({cart.length})
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/review">
-              <FaAd></FaAd>
-              Add a Review
+            <NavLink to="/dashboard/manageItems">
+              <FaList></FaList>
+              Manage items
             </NavLink>
           </li>
           <li>
             <NavLink to="/dashboard/bookings">
-              <FaList></FaList>
-              My Bookings
+              <FaBook></FaBook>
+              Manage Bookings
             </NavLink>
           </li>
+          <li>
+            <NavLink to="/dashboard/users">
+              <FaUsers></FaUsers>
+              All Users
+            </NavLink>
+          </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <NavLink to="/dashboard/userHome">
+                  <FaHome></FaHome>
+                  User Home
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  // className='active'
+                  to="/dashboard/reservation"
+                >
+                  <FaCalendar></FaCalendar>
+                  Reservation
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/cart">
+                  <FaShoppingCart></FaShoppingCart>
+                  My Cart ({cart.length})
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/review">
+                  <FaAd></FaAd>
+                  Add a Review
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/bookings">
+                  <FaList></FaList>
+                  My Bookings
+                </NavLink>
+              </li>
+            </>
+          )}
 
           {/* Shared Nav links */}
           <div className="divider"></div>
@@ -64,7 +109,7 @@ const Dashboard = () => {
           </li>
           <li>
             <NavLink to="/order/salad">
-              <MdProductionQuantityLimits ></MdProductionQuantityLimits>
+              <MdProductionQuantityLimits></MdProductionQuantityLimits>
               Menu
             </NavLink>
           </li>
