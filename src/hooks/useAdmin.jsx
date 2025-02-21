@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAuth from "./useAuth";
 import useAxiosSecure from "./useAxiosSecure";
 
-const useAdmin = () => {
+const useAdmin = () => { //check user to recognize admin or not ==> return true/false
     const {user} = useAuth() 
     const axiosSecure = useAxiosSecure()
 
