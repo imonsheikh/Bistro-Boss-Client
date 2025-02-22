@@ -14,6 +14,9 @@ import Cart from "../pages/Dashboard/Cart";
 import AllUsers from "../pages/Dashboard/AllUsers/AllUsers";
 import AdminRoute from "./AdminRoute";
 import AddItems from "../pages/Dashboard/AddItems/AddItems";
+import ManageItems from "../pages/Dashboard/ManageItems/ManageItems";
+import UpdataItem from "../pages/Dashboard/UpdateItem/UpdataItem";
+import Payment from "../pages/Dashboard/Payment/Payment";
 
   export const router = createBrowserRouter([
     {
@@ -55,12 +58,25 @@ import AddItems from "../pages/Dashboard/AddItems/AddItems";
         path: 'cart',
         element: <Cart></Cart> 
        },
+       {
+        path: 'payment',
+        element: <Payment></Payment> 
+       },
 
        //Admin only routes
        {
         path: 'addItems',
-        element: <AddItems></AddItems>
-        // element: <AdminRoute><AddItems></AddItems></AdminRoute>
+        element: <AdminRoute><AddItems></AddItems></AdminRoute>
+        // element: <AddItems></AddItems>
+       },
+       {
+        path: 'manageItems',
+        element: <AdminRoute><ManageItems></ManageItems></AdminRoute>
+       }, 
+       {
+        path: 'updateItem/:id',
+        element: <AdminRoute><UpdataItem></UpdataItem></AdminRoute>,
+        loader: ({params}) => fetch(`http://localhost:5000/menu/${params.id}`) //without component we can not call custom hook
        }, 
        {
         path: 'users',
