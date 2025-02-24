@@ -42,7 +42,7 @@ const AuthProviders = ({ children }) => {
   //  3. signOut Or logOut
   const logOut = () => {
     setLoading(true);
-    signOut(auth);
+    return signOut(auth);
   };
   //4. updateProfile
   const updateUserProfile = (name, photo) => {
@@ -62,14 +62,15 @@ const AuthProviders = ({ children }) => {
         axiosPublic.post('/jwt', userInfo)
         .then(res => {
           if(res.data.token){
-            localStorage.setItem('access-token', res.data.token)
+            localStorage.setItem('access-token', res.data.token) 
+            setLoading(false);
           }
         })
       }else{
         //TODO: remove token(if token stored in the client side: Local storage, catching, in memory) 
         localStorage.removeItem('access-token')
+        setLoading(false);
       } 
-      setLoading(false);
     });
     return () => {
       unsubscribe();
